@@ -1,22 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Vista;
 
-/**
- *
- * @author HP
- */
+import Controlador.Turno_Controlador;
+
 public class Historial_Turno extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Historial_Turno.class.getName());
+    private final Turno_Controlador controlTurno;
+    
 
     /**
      * Creates new form Registro_Tur
      */
     public Historial_Turno() {
         initComponents();
+        
+        controlTurno = new Turno_Controlador();
+
+    controlTurno.cargarMascotas(jcbMascota);
+    controlTurno.cargarServicios(jcbServicio);
+    controlTurno.cargarEstados(jcbEstado);
+    controlTurno.mostrarTurnos(jtTurno);
+
+    setLocationRelativeTo(null);
     }
 
     /**
@@ -28,19 +33,38 @@ public class Historial_Turno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnexit = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        btnmenu = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtTurno = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btneliminar = new javax.swing.JButton();
         btnmodificar = new javax.swing.JButton();
-        btnagregar = new javax.swing.JButton();
+        btnguardar = new javax.swing.JButton();
+        lbMascotas = new javax.swing.JLabel();
+        lbServicio = new javax.swing.JLabel();
+        lbFecha = new javax.swing.JLabel();
+        jcbEstado = new javax.swing.JComboBox<>();
+        txtFecha = new javax.swing.JTextField();
+        btnagregar1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtHora = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        lbEstadoTurno = new javax.swing.JLabel();
+        jlObservaciones = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtaObservaciones = new javax.swing.JTextPane();
+        jcbServicio = new javax.swing.JComboBox<>();
+        jcbMascota = new javax.swing.JComboBox<>();
+
+        jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnexit.setText("Exit");
+        btnmenu.setText("Menu");
+        btnmenu.addActionListener(this::btnmenuActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtTurno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -51,16 +75,63 @@ public class Historial_Turno extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jtTurno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtTurnoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtTurno);
 
         jLabel1.setText("Registro de Turnos");
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(this::btneliminarActionPerformed);
 
         btnmodificar.setText("Modificar");
+        btnmodificar.addActionListener(this::btnmodificarActionPerformed);
 
-        btnagregar.setText("Agregar");
-        btnagregar.addActionListener(this::btnagregarActionPerformed);
+        btnguardar.setText("Guardar");
+        btnguardar.addActionListener(this::btnguardarActionPerformed);
+
+        lbMascotas.setText("ID Mascota:");
+
+        lbServicio.setText("Servicio: ");
+
+        lbFecha.setText("Fecha: ");
+
+        jcbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbEstado.addActionListener(this::jcbEstadoActionPerformed);
+
+        txtFecha.addActionListener(this::txtFechaActionPerformed);
+        txtFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFechaKeyTyped(evt);
+            }
+        });
+
+        btnagregar1.setText("Nuevo Registro");
+        btnagregar1.addActionListener(this::btnagregar1ActionPerformed);
+
+        jLabel5.setText("Hora:");
+
+        txtHora.addActionListener(this::txtHoraActionPerformed);
+        txtHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHoraKeyTyped(evt);
+            }
+        });
+
+        lbEstadoTurno.setText("Estado del Turno:");
+
+        jlObservaciones.setText("Observaciones: ");
+
+        jScrollPane2.setViewportView(jtaObservaciones);
+
+        jcbServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbServicio.addActionListener(this::jcbServicioActionPerformed);
+
+        jcbMascota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbMascota.addActionListener(this::jcbMascotaActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,58 +139,302 @@ public class Historial_Turno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(btnexit)
-                .addGap(283, 283, 283)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(93, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnagregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btneliminar)
-                        .addGap(169, 169, 169)
-                        .addComponent(btnmodificar)
-                        .addGap(96, 96, 96))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbMascotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lbServicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbEstadoTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jlObservaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jcbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jcbServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnguardar)
+                                        .addGap(90, 90, 90)
+                                        .addComponent(btnmodificar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnagregar1)
+                                        .addGap(85, 85, 85)
+                                        .addComponent(btneliminar)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jcbMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(46, 46, 46)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(129, 129, 129))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnmenu)
+                                .addGap(307, 307, 307)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnexit)
+                    .addComponent(btnmenu)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(36, 36, 36)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btneliminar)
-                    .addComponent(btnmodificar)
-                    .addComponent(btnagregar))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbMascotas)
+                            .addComponent(jcbMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbServicio)
+                            .addComponent(jcbServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5)
+                                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbFecha))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jcbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(lbEstadoTurno))
+                        .addGap(31, 31, 31)
+                        .addComponent(jlObservaciones)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnagregar1)
+                            .addComponent(btneliminar))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnguardar)
+                            .addComponent(btnmodificar))))
+                .addGap(22, 31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
         
+        controlTurno.guardarTurno(
+            txtFecha,
+            txtHora,
+            jcbMascota,
+            jcbServicio,
+            jcbEstado,
+            jtaObservaciones
+    );
+
+    controlTurno.mostrarTurnos(jtTurno);
+
+    controlTurno.limpiarCampos(
+            jtTurno,
+            txtFecha,
+            txtHora,
+            jcbMascota,
+            jcbServicio,
+            jcbEstado,
+            jtaObservaciones
+    );
         
-                
-    }//GEN-LAST:event_btnagregarActionPerformed
+    }//GEN-LAST:event_btnguardarActionPerformed
+
+    private void jcbMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMascotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbMascotaActionPerformed
+
+    private void jcbServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbServicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbServicioActionPerformed
+
+    private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaActionPerformed
+
+    private void txtHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoraActionPerformed
+
+    private void jcbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbEstadoActionPerformed
+
+    private void btnagregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregar1ActionPerformed
+        // TODO add your handling code here:
+        
+         controlTurno.limpiarCampos(
+            jtTurno,
+            txtFecha,
+            txtHora,
+            jcbMascota,
+            jcbServicio,
+            jcbEstado,
+            jtaObservaciones
+        );
+        
+    }//GEN-LAST:event_btnagregar1ActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        // TODO add your handling code here:
+        
+        controlTurno.eliminarTurno(jtTurno);
+
+    controlTurno.mostrarTurnos(jtTurno);
+    controlTurno.limpiarCampos(
+            jtTurno,
+            txtFecha,
+            txtHora,
+            jcbMascota,
+            jcbServicio,
+            jcbEstado,
+            jtaObservaciones
+        );
+    
+    
+    
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
+        // TODO add your handling code here:
+        controlTurno.modificarTurno(
+            jtTurno,
+            txtFecha,
+            txtHora,
+            jcbMascota,
+            jcbServicio,
+            jcbEstado,
+            jtaObservaciones
+    );
+
+    controlTurno.mostrarTurnos(jtTurno);
+
+    controlTurno.limpiarCampos(
+            jtTurno,
+            txtFecha,
+            txtHora,
+            jcbMascota,
+            jcbServicio,
+            jcbEstado,
+            jtaObservaciones
+    );
+        
+    }//GEN-LAST:event_btnmodificarActionPerformed
+
+    private void jtTurnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtTurnoMouseClicked
+        // TODO add your handling code here:
+        
+        controlTurno.seleccionarTurno(
+            jtTurno,
+            txtFecha,
+            txtHora,
+            jcbMascota,
+            jcbServicio,
+            jcbEstado,
+            jtaObservaciones
+        );
+    }//GEN-LAST:event_jtTurnoMouseClicked
+
+    private void btnmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuActionPerformed
+        // TODO add your handling code here:
+        Menu menuPrincipal = new Menu();
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null);
+         dispose();
+    }//GEN-LAST:event_btnmenuActionPerformed
+
+    private void txtFechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaKeyTyped
+        // TODO add your handling code here:
+        
+        char c = evt.getKeyChar();
+
+ 
+    if (!Character.isDigit(c)
+            && c != '/'
+            && c != '-'
+            && c != '\b') {
+
+        evt.consume();
+    }
+
+    if (txtFecha.getText().length() >= 10
+            && c != '\b') {
+
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtFechaKeyTyped
+
+    private void txtHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHoraKeyTyped
+        // TODO add your handling code here:
+        
+         char c = evt.getKeyChar();
+
+    if (!Character.isDigit(c)
+            && c != ':'
+            && c != '\b') {
+
+        evt.consume();
+    }
+
+    if (txtHora.getText().length() >= 5
+            && c != '\b') {
+
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtHoraKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnagregar;
+    private javax.swing.JButton btnagregar1;
     private javax.swing.JButton btneliminar;
-    private javax.swing.JButton btnexit;
+    private javax.swing.JButton btnguardar;
+    private javax.swing.JButton btnmenu;
     private javax.swing.JButton btnmodificar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> jcbEstado;
+    private javax.swing.JComboBox<String> jcbMascota;
+    private javax.swing.JComboBox<String> jcbServicio;
+    private javax.swing.JLabel jlObservaciones;
+    private javax.swing.JTable jtTurno;
+    private javax.swing.JTextPane jtaObservaciones;
+    private javax.swing.JLabel lbEstadoTurno;
+    private javax.swing.JLabel lbFecha;
+    private javax.swing.JLabel lbMascotas;
+    private javax.swing.JLabel lbServicio;
+    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtHora;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,20 +1,29 @@
 
 package Vista;
 
-import Controlador.Mascotas_Controlador;
+import Controlador.Mascota_Controlador;
 
 public class Carga_DatosMasc extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Carga_DatosMasc.class.getName());
-    Mascotas_Controlador controlMascota = new Mascotas_Controlador();
+    Mascota_Controlador controlMascota = new Mascota_Controlador();
     
     public Carga_DatosMasc() {
         initComponents();
-        controlMascota.mostrarMascotas(tbmasc);
+        
         txtIdMascota.setVisible(false);
-        txtIdCliente.setVisible(false);
-    }
 
+    jcbTamano.removeAllItems();
+    jcbTamano.addItem("Pequeño");
+    jcbTamano.addItem("Mediano");
+    jcbTamano.addItem("Grande");
+
+    controlMascota.cargarDueños(jcbDueño);
+
+    controlMascota.mostrarMascotas(tbmasc);
+            
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,28 +38,32 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
         btnagregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbmasc = new javax.swing.JTable();
-        btnexit = new javax.swing.JButton();
+        btnemenu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNombreMascota = new javax.swing.JTextField();
         txtRaza = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tpOpservamiento = new javax.swing.JTextArea();
-        txtIdCliente = new javax.swing.JTextField();
+        jtaObservaciones = new javax.swing.JTextArea();
         txtIdMascota = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         btnguardar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        txtTamanio = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jcbDueño = new javax.swing.JComboBox<>();
+        jcbTamano = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnmodificar.setText("Modificar");
+        btnmodificar.addActionListener(this::btnmodificarActionPerformed);
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(this::btneliminarActionPerformed);
 
         btnagregar.setText("Nuevo Registro");
+        btnagregar.addActionListener(this::btnagregarActionPerformed);
 
         tbmasc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -63,26 +76,54 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbmasc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbmascMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbmasc);
 
-        btnexit.setText("Salir");
+        btnemenu.setText("Menu");
+        btnemenu.addActionListener(this::btnemenuActionPerformed);
 
         jLabel1.setText("Nombre:");
 
         jLabel2.setText("Raza:");
 
+        txtNombreMascota.addActionListener(this::txtNombreMascotaActionPerformed);
+        txtNombreMascota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreMascotaKeyTyped(evt);
+            }
+        });
+
+        txtRaza.addActionListener(this::txtRazaActionPerformed);
+        txtRaza.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRazaKeyTyped(evt);
+            }
+        });
+
         jLabel4.setText("Observaciones: ");
 
-        tpOpservamiento.setColumns(20);
-        tpOpservamiento.setRows(5);
-        jScrollPane2.setViewportView(tpOpservamiento);
+        jtaObservaciones.setColumns(20);
+        jtaObservaciones.setRows(5);
+        jScrollPane2.setViewportView(jtaObservaciones);
 
         jLabel7.setText("Registro de Mascotas");
 
         btnguardar.setText("Guardar");
         btnguardar.addActionListener(this::btnguardarActionPerformed);
 
-        jLabel8.setText("Tamaño: ");
+        jLabel8.setText("Dueño:");
+
+        jLabel9.setText("Tamaño: ");
+
+        jcbDueño.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbDueño.addActionListener(this::jcbDueñoActionPerformed);
+
+        jcbTamano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbTamano.addActionListener(this::jcbTamanoActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,7 +140,7 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 534, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnmodificar)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,28 +148,33 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
                                         .addGap(79, 79, 79)
                                         .addComponent(jLabel7))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(16, 16, 16))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnexit)
+                                    .addComponent(btnemenu)
                                     .addComponent(txtIdMascota, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtTamanio, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtRaza, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
-                                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtNombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtRaza, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jcbDueño, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jcbTamano, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -136,7 +182,7 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnexit)
+                    .addComponent(btnemenu)
                     .addComponent(jLabel7))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -153,12 +199,14 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
                                     .addComponent(jLabel2))
                                 .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(txtTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtIdMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(53, 53, 53)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jcbTamano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtIdMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jcbDueño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
                         .addComponent(jLabel4)
                         .addGap(3, 3, 3)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,20 +229,173 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         
-        
-        // Limpia los campos, despues del registro
-        txtIdCliente.setText("");
-        txtIdMascota.setText("");
-        txtRaza.setText("");
-        
-        controlMascota.guardarMascotas(txtNombreMascota, txtRaza, txtNombreMascota, txtTamanio, txtNombreMascota);
-        controlMascota.mostrarMascotas(tbmasc);
+       controlMascota.guardarMascota(
+            txtNombreMascota,
+            txtRaza,
+            jcbTamano,
+            jcbDueño,
+            jtaObservaciones
+    );
+
+    controlMascota.mostrarMascotas(tbmasc);
+
+    controlMascota.limpiarCampos(
+            txtIdMascota,
+            txtNombreMascota,
+            txtRaza,
+            jcbTamano,
+            jtaObservaciones
+    );
+
+    tbmasc.clearSelection();
+
     }//GEN-LAST:event_btnguardarActionPerformed
+
+    private void jcbTamanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTamanoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbTamanoActionPerformed
+
+    private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
+        // TODO add your handling code here:
+        
+        controlMascota.modificarMascota(
+            txtIdMascota,
+            txtNombreMascota,
+            txtRaza,
+            jcbTamano,
+            jcbDueño,
+            jtaObservaciones
+    );
+
+    controlMascota.mostrarMascotas(tbmasc);
+
+    controlMascota.limpiarCampos(
+            txtIdMascota,
+            txtNombreMascota,
+            txtRaza,
+            jcbTamano,
+            jtaObservaciones
+    );
+
+    tbmasc.clearSelection();
+    }//GEN-LAST:event_btnmodificarActionPerformed
+
+    private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
+        // TODO add your handling code here:
+        
+         controlMascota.limpiarCampos(
+            txtIdMascota,
+            txtNombreMascota,
+            txtRaza,
+            jcbTamano,
+            jtaObservaciones
+    );
+
+    if (jcbDueño.getItemCount() > 0) {
+        jcbDueño.setSelectedIndex(0);
+    }
+
+    tbmasc.clearSelection();
+    }//GEN-LAST:event_btnagregarActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        // TODO add your handling code here:
+        
+        controlMascota.eliminarMascota(
+            txtIdMascota
+    );
+
+    controlMascota.mostrarMascotas(tbmasc);
+
+    controlMascota.limpiarCampos(
+            txtIdMascota,
+            txtNombreMascota,
+            txtRaza,
+            jcbTamano,
+            jtaObservaciones
+    );
+
+    tbmasc.clearSelection();
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    private void txtNombreMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreMascotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreMascotaActionPerformed
+
+    private void txtRazaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRazaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRazaActionPerformed
+
+    private void jcbDueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDueñoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbDueñoActionPerformed
+
+    private void tbmascMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbmascMouseClicked
+        // TODO add your handling code here:
+        
+         controlMascota.seleccionarMascota(
+            tbmasc,
+            txtIdMascota,
+            txtNombreMascota,
+            txtRaza,
+            jcbTamano,
+            jcbDueño,
+            jtaObservaciones
+      );
+    }//GEN-LAST:event_tbmascMouseClicked
+
+    private void btnemenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnemenuActionPerformed
+        // TODO add your handling code here:
+        
+        Menu menuPrincipal = new Menu();
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null);
+        dispose();
+    }//GEN-LAST:event_btnemenuActionPerformed
+
+    private void txtNombreMascotaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreMascotaKeyTyped
+        // TODO add your handling code here:
+        
+        char caracter = evt.getKeyChar();
+
+    if (!Character.isLetter(caracter)
+            && caracter != ' '
+            && caracter != '\b') {
+
+        evt.consume();
+    }
+
+    if (txtNombreMascota.getText().length() >= 30
+            && caracter != '\b') {
+
+        evt.consume();
+    }
+        
+    }//GEN-LAST:event_txtNombreMascotaKeyTyped
+
+    private void txtRazaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRazaKeyTyped
+        // TODO add your handling code here:
+        
+         char caracter = evt.getKeyChar();
+
+    if (!Character.isLetter(caracter)
+            && caracter != ' '
+            && caracter != '\b') {
+
+        evt.consume();
+    }
+
+    if (txtRaza.getText().length() >= 30
+            && caracter != '\b') {
+
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtRazaKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton btneliminar;
-    private javax.swing.JButton btnexit;
+    private javax.swing.JButton btnemenu;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnmodificar;
     private javax.swing.JLabel jLabel1;
@@ -202,14 +403,15 @@ public class Carga_DatosMasc extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcbDueño;
+    private javax.swing.JComboBox<String> jcbTamano;
+    private javax.swing.JTextArea jtaObservaciones;
     private javax.swing.JTable tbmasc;
-    private javax.swing.JTextArea tpOpservamiento;
-    private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtIdMascota;
     private javax.swing.JTextField txtNombreMascota;
     private javax.swing.JTextField txtRaza;
-    private javax.swing.JTextField txtTamanio;
     // End of variables declaration//GEN-END:variables
 }

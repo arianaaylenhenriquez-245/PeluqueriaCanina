@@ -1,9 +1,10 @@
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\com\mycompany\peluqueriacan\PeluqueriaCan.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Conexion\Conexion.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\Cliente_Controlador.java
-C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\Mascotas_Controlador.java
+C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\Mascota_Controlador.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\Pago_Controlador.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\Servicios_Controlador.java
+C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\tpObservaciones.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\Turno_Controlador.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\txtnomdue.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Controlador\txtRaza.java
@@ -16,9 +17,6 @@ C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Modelo\Modelo
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Carga_DatosCli.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Carga_DatosMasc.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Carga_DatosServ.java
-C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Carga_DatosTur.java
-C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Historial_Cliente.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Historial_Turno.java
-C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\login.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Menu.java
 C:\Users\HP\Documents\NetBeansProjects\PeluqueriaCan\src\main\java\Vista\Registro_Pagos.java

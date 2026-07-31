@@ -17,7 +17,7 @@ public class Carga_DatosCli extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnexit = new javax.swing.JButton();
+        btnmenu = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         lblnomdue = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -34,8 +34,8 @@ public class Carga_DatosCli extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnexit.setText("Menu");
-        btnexit.addActionListener(this::btnexitActionPerformed);
+        btnmenu.setText("Menu");
+        btnmenu.addActionListener(this::btnmenuActionPerformed);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
@@ -45,8 +45,18 @@ public class Carga_DatosCli extends javax.swing.JFrame {
         lbltelefono.setText("Telefono:");
 
         txtNombre.addActionListener(this::txtNombreActionPerformed);
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtTelefono.addActionListener(this::txtTelefonoActionPerformed);
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Registro de Cliente");
 
@@ -72,6 +82,11 @@ public class Carga_DatosCli extends javax.swing.JFrame {
                 tbClienteMouseClicked(evt);
             }
         });
+        tbCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tbClienteKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbCliente);
 
         btnNuevoRegistro.setText("Nuevo Registro");
@@ -85,7 +100,7 @@ public class Carga_DatosCli extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnexit)
+                        .addComponent(btnmenu)
                         .addGap(243, 243, 243)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -124,7 +139,7 @@ public class Carga_DatosCli extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnexit)
+                    .addComponent(btnmenu)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +175,7 @@ public class Carga_DatosCli extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
- 
+     
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -214,12 +229,12 @@ public class Carga_DatosCli extends javax.swing.JFrame {
     controlCliente.habilitarCampos(txtNombre, txtTelefono);
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void btnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexitActionPerformed
+    private void btnmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuActionPerformed
         Menu menuPrincipal = new Menu();
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_btnexitActionPerformed
+    }//GEN-LAST:event_btnmenuActionPerformed
 
     private void tbClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClienteMouseClicked
     controlCliente.seleccionarCliente(tbCliente,txtidcli,txtNombre,txtTelefono);
@@ -231,13 +246,48 @@ public class Carga_DatosCli extends javax.swing.JFrame {
         controlCliente.limpiarCampos(txtidcli, txtNombre, txtTelefono);
         controlCliente.habilitarCampos(txtNombre, txtTelefono);
     }//GEN-LAST:event_btnNuevoRegistroActionPerformed
+      
+    //validamos para que no ingresen numeros, solo letras
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        // TODO add your handling code here:
+      
+         char caracter = evt.getKeyChar();
+
+    if (!Character.isLetter(caracter)
+            && caracter != ' '
+            && caracter != '\b') {
+
+        evt.consume();
+    }
+                              
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        // TODO add your handling code here:
+        
+        char caracter = evt.getKeyChar();
+
+    // Permite solamente números
+    if (!Character.isDigit(caracter)) {
+        evt.consume();
+    }
+
+    // Máximo 15 dígitos
+    if (txtTelefono.getText().length() >= 15) {
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+
+    private void tbClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbClienteKeyTyped
+
+    }//GEN-LAST:event_tbClienteKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevoRegistro;
-    private javax.swing.JButton btnexit;
+    private javax.swing.JButton btnmenu;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;

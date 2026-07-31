@@ -1,22 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Vista;
 
-/**
- *
- * @author HP
- */
+import Controlador.Servicios_Controlador;
+
 public class Carga_DatosServ extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Carga_DatosServ.class.getName());
 
+       Servicios_Controlador controlServicio
+        = new Servicios_Controlador();
+       
     /**
      * Creates new form Carga_DatosServ
      */
     public Carga_DatosServ() {
         initComponents();
+        
+         controlServicio.mostrarServicios(jtServicios);
+
+    setLocationRelativeTo(null);
     }
 
     /**
@@ -29,17 +31,21 @@ public class Carga_DatosServ extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableserv = new javax.swing.JTable();
-        btnexit = new javax.swing.JButton();
+        jtServicios = new javax.swing.JTable();
+        btnmenu = new javax.swing.JButton();
         btnmodificar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
         btnagregar = new javax.swing.JButton();
         lblserv = new javax.swing.JLabel();
-        txtserv = new javax.swing.JTextField();
+        txtServicios = new javax.swing.JTextField();
+        btnguardar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtPrecio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tableserv.setModel(new javax.swing.table.DefaultTableModel(
+        jtServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -50,88 +56,258 @@ public class Carga_DatosServ extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tableserv);
+        jtServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtServiciosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtServicios);
 
-        btnexit.setText("Salir");
-        btnexit.addActionListener(this::btnexitActionPerformed);
+        btnmenu.setText("Menu");
+        btnmenu.addActionListener(this::btnmenuActionPerformed);
 
         btnmodificar.setText("Modificar");
         btnmodificar.addActionListener(this::btnmodificarActionPerformed);
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(this::btneliminarActionPerformed);
 
-        btnagregar.setText("Agregar");
+        btnagregar.setText("Nuevo Registro");
+        btnagregar.addActionListener(this::btnagregarActionPerformed);
 
-        lblserv.setText("Srervicio:");
+        lblserv.setText("Nombre:");
+
+        txtServicios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtServiciosKeyTyped(evt);
+            }
+        });
+
+        btnguardar.setText("Guardar");
+        btnguardar.addActionListener(this::btnguardarActionPerformed);
+
+        jLabel1.setText("Registro de Servicios");
+
+        jLabel2.setText("Precio:");
+
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(btnmodificar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btneliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnagregar)
-                        .addGap(46, 46, 46))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(41, Short.MAX_VALUE)
-                        .addComponent(lblserv, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtserv, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnexit)
+                .addComponent(btnmenu)
+                .addGap(276, 276, 276)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnmodificar)
+                            .addComponent(btnagregar))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(btnguardar))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(btneliminar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(41, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblserv, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtServicios, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(72, 72, 72)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnmenu)
+                    .addComponent(jLabel1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(btnexit)
+                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(95, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblserv)
-                            .addComponent(txtserv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
+                            .addComponent(txtServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnagregar)
+                            .addComponent(btnguardar))
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnmodificar)
-                            .addComponent(btneliminar)
-                            .addComponent(btnagregar)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                            .addComponent(btneliminar))
+                        .addGap(84, 84, 84))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexitActionPerformed
+    private void btnmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnexitActionPerformed
+        
+        Menu menuPrincipal = new Menu();
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null);
+        
+        dispose();
+    }//GEN-LAST:event_btnmenuActionPerformed
 
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
         // TODO add your handling code here:
+        
+        controlServicio.modificarServicio(
+            jtServicios,
+            txtServicios,
+            txtPrecio
+    );
+
+    controlServicio.mostrarServicios(
+            jtServicios
+    );
+
+    controlServicio.limpiarCampos(
+            txtServicios,
+            txtPrecio,
+            jtServicios
+    );
     }//GEN-LAST:event_btnmodificarActionPerformed
+
+    private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
+        // TODO add your handling code here:
+        
+        controlServicio.limpiarCampos(
+            txtServicios,
+            txtPrecio,
+            jtServicios
+    );
+    }//GEN-LAST:event_btnagregarActionPerformed
+
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+        // TODO add your handling code here:
+        
+        controlServicio.guardarServicio(
+            txtServicios,
+            txtPrecio
+    );
+
+    controlServicio.mostrarServicios(
+            jtServicios
+    );
+
+    controlServicio.limpiarCampos(
+            txtServicios,
+            txtPrecio,
+            jtServicios
+    );
+    }//GEN-LAST:event_btnguardarActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        // TODO add your handling code here:
+        
+        controlServicio.eliminarServicio(
+            jtServicios
+    );
+
+    controlServicio.mostrarServicios(
+            jtServicios
+    );
+
+    controlServicio.limpiarCampos(
+            txtServicios,
+            txtPrecio,
+            jtServicios
+    );
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    private void jtServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtServiciosMouseClicked
+        // TODO add your handling code here:
+        
+        controlServicio.seleccionarServicio(
+            jtServicios,
+            txtServicios,
+            txtPrecio
+    );
+    }//GEN-LAST:event_jtServiciosMouseClicked
+
+    private void txtServiciosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtServiciosKeyTyped
+        // TODO add your handling code here:
+         char c = evt.getKeyChar();
+
+    if (!Character.isLetter(c)
+            && !Character.isSpaceChar(c)
+            && c != '\b') {
+
+        evt.consume();
+    }
+
+    if (txtServicios.getText().length() >= 40
+            && c != '\b') {
+
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtServiciosKeyTyped
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        // TODO add your handling code here:
+        
+          char c = evt.getKeyChar();
+
+    if (!Character.isDigit(c)
+            && c != '.'
+            && c != ','
+            && c != '\b') {
+
+        evt.consume();
+    }
+
+    if ((c == '.' || c == ',')
+            && (txtPrecio.getText().contains(".")
+            || txtPrecio.getText().contains(","))) {
+
+        evt.consume();
+    }
+        
+    }//GEN-LAST:event_txtPrecioKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton btneliminar;
-    private javax.swing.JButton btnexit;
+    private javax.swing.JButton btnguardar;
+    private javax.swing.JButton btnmenu;
     private javax.swing.JButton btnmodificar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jtServicios;
     private javax.swing.JLabel lblserv;
-    private javax.swing.JTable tableserv;
-    private javax.swing.JTextField txtserv;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtServicios;
     // End of variables declaration//GEN-END:variables
 }

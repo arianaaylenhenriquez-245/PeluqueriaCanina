@@ -21,7 +21,7 @@ public class Conexion {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conectar = DriverManager.getConnection(cadena, usuario, contrasenia);
-            // JOptionPane.showMessageDialog(null, "La conexion se ha realizado con Exito");
+          
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos, error" + e.toString());
         }

@@ -1,22 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Vista;
 
-/**
- *
- * @author HP
- */
+import Controlador.Pago_Controlador;
+
 public class Registro_Pagos extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Registro_Pagos.class.getName());
+    private final Pago_Controlador controlPago;
 
     /**
      * Creates new form Registro_Pagos
      */
     public Registro_Pagos() {
         initComponents();
+        
+        controlPago = new Pago_Controlador();
+
+    controlPago.cargarTurnos(jcbTurno);
+    controlPago.cargarDueños(jcbDueño);
+    controlPago.cargarMetodosPago(jcbMetodoPago);
+    controlPago.cargarEstadosPago(jcbEstadoPago);
+    controlPago.mostrarPagos(jtPagos);
+
+    // El dueño se selecciona automáticamente según el turno.
+    jcbDueño.setEnabled(false);
+
+    controlPago.seleccionarDueñoDelTurno(
+            jcbTurno,
+            jcbDueño
+    );
+
+    setLocationRelativeTo(null);
+         
     }
 
     /**
@@ -31,23 +45,27 @@ public class Registro_Pagos extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableregpag = new javax.swing.JTable();
+        jtPagos = new javax.swing.JTable();
         lblregpag = new javax.swing.JLabel();
-        btnexit = new javax.swing.JButton();
+        btnmenu = new javax.swing.JButton();
         lblidtur = new javax.swing.JLabel();
         lblidcli = new javax.swing.JLabel();
         lbltot = new javax.swing.JLabel();
         lblmetpag = new javax.swing.JLabel();
         lblespag = new javax.swing.JLabel();
         lblfe = new javax.swing.JLabel();
-        txtfe = new javax.swing.JTextField();
-        txtIdtur = new javax.swing.JTextField();
-        txtidcli = new javax.swing.JTextField();
-        txttot = new javax.swing.JTextField();
-        comboestpag = new javax.swing.JComboBox<>();
+        txtFecha = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JTextField();
+        jcbEstadoPago = new javax.swing.JComboBox<>();
         btnguardar = new javax.swing.JButton();
         btnmodificar = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jcbMetodoPago = new javax.swing.JComboBox<>();
+        btneliminar = new javax.swing.JButton();
+        btnagregar1 = new javax.swing.JButton();
+        txtHora = new javax.swing.JTextField();
+        lblfe1 = new javax.swing.JLabel();
+        jcbTurno = new javax.swing.JComboBox<>();
+        jcbDueño = new javax.swing.JComboBox<>();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -55,7 +73,7 @@ public class Registro_Pagos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tableregpag.setModel(new javax.swing.table.DefaultTableModel(
+        jtPagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -66,15 +84,21 @@ public class Registro_Pagos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tableregpag);
+        jtPagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtPagosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtPagos);
 
         lblregpag.setText("Resgistro Pagos");
 
-        btnexit.setText("Exit");
+        btnmenu.setText("Menu");
+        btnmenu.addActionListener(this::btnmenuActionPerformed);
 
         lblidtur.setText("ID Turno:");
 
-        lblidcli.setText("ID Cliente:");
+        lblidcli.setText("Dueño:");
 
         lbltot.setText("Total: ");
 
@@ -84,15 +108,51 @@ public class Registro_Pagos extends javax.swing.JFrame {
 
         lblfe.setText("Fecha:");
 
-        comboestpag.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar:", "Pagado", "Pedndiente de Pago" }));
-        comboestpag.addActionListener(this::comboestpagActionPerformed);
+        txtFecha.addActionListener(this::txtFechaActionPerformed);
+        txtFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFechaKeyTyped(evt);
+            }
+        });
+
+        txtTotal.addActionListener(this::txtTotalActionPerformed);
+        txtTotal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTotalKeyTyped(evt);
+            }
+        });
+
+        jcbEstadoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar:", "Pagado", "Pedndiente de Pago" }));
+        jcbEstadoPago.addActionListener(this::jcbEstadoPagoActionPerformed);
 
         btnguardar.setText("Guardar");
         btnguardar.addActionListener(this::btnguardarActionPerformed);
 
         btnmodificar.setText("Modificar");
+        btnmodificar.addActionListener(this::btnmodificarActionPerformed);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar:", "Efectivo", "Transferencia" }));
+        jcbMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar:", "Efectivo", "Transferencia" }));
+
+        btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(this::btneliminarActionPerformed);
+
+        btnagregar1.setText("Nuevo Registro");
+        btnagregar1.addActionListener(this::btnagregar1ActionPerformed);
+
+        txtHora.addActionListener(this::txtHoraActionPerformed);
+        txtHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHoraKeyTyped(evt);
+            }
+        });
+
+        lblfe1.setText("Hora:");
+
+        jcbTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbTurno.addActionListener(this::jcbTurnoActionPerformed);
+
+        jcbDueño.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbDueño.addActionListener(this::jcbDueñoActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,24 +161,28 @@ public class Registro_Pagos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txttot, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                            .addComponent(txtidcli)
-                            .addComponent(txtIdtur)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(lblfe, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtfe, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addComponent(lblfe1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jcbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbDueño, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(75, 75, 75))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnexit))
+                        .addComponent(btnmenu))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,13 +200,17 @@ public class Registro_Pagos extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboestpag, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, 0, 1, Short.MAX_VALUE))))
+                            .addComponent(jcbEstadoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbMetodoPago, 0, 1, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(56, 56, 56)
+                .addComponent(btnagregar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnguardar)
-                .addGap(217, 217, 217)
+                .addGap(65, 65, 65)
+                .addComponent(btneliminar)
+                .addGap(80, 80, 80)
                 .addComponent(btnmodificar)
                 .addGap(230, 230, 230))
         );
@@ -152,72 +220,288 @@ public class Registro_Pagos extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblregpag)
-                    .addComponent(btnexit))
-                .addGap(33, 33, 33)
+                    .addComponent(btnmenu))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblidtur)
-                            .addComponent(txtIdtur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblidcli)
-                            .addComponent(txtidcli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcbDueño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbltot)
-                            .addComponent(txttot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblmetpag)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcbMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblespag)
-                            .addComponent(comboestpag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcbEstadoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtfe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblfe)))
+                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblfe)
+                            .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblfe1)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnguardar)
-                    .addComponent(btnmodificar))
+                    .addComponent(btnmodificar)
+                    .addComponent(btneliminar)
+                    .addComponent(btnagregar1))
                 .addGap(44, 44, 44))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboestpagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboestpagActionPerformed
+    private void jcbEstadoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEstadoPagoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboestpagActionPerformed
+    }//GEN-LAST:event_jcbEstadoPagoActionPerformed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
+        
+        controlPago.guardarPago(
+            jcbTurno,
+            txtTotal,
+            jcbMetodoPago,
+            jcbEstadoPago,
+            txtFecha,
+            txtHora
+    );
+
+    controlPago.mostrarPagos(jtPagos);
+
+    controlPago.limpiarCampos(
+            jtPagos,
+            jcbTurno,
+            jcbDueño,
+            txtTotal,
+            jcbMetodoPago,
+            jcbEstadoPago,
+            txtFecha,
+            txtHora
+    );
+
+    controlPago.seleccionarDueñoDelTurno(jcbTurno,jcbDueño);
+
     }//GEN-LAST:event_btnguardarActionPerformed
 
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        // TODO add your handling code here:
+        
+        controlPago.eliminarPago(jtPagos);
+
+    controlPago.mostrarPagos(jtPagos);
+
+    controlPago.limpiarCampos(
+            jtPagos,
+            jcbTurno,
+            jcbDueño,
+            txtTotal,
+            jcbMetodoPago,
+            jcbEstadoPago,
+            txtFecha,
+            txtHora
+    );
+
+    controlPago.seleccionarDueñoDelTurno(
+            jcbTurno,
+            jcbDueño
+    );
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    private void btnagregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregar1ActionPerformed
+        // TODO add your handling code here:
+        
+         controlPago.limpiarCampos(
+            jtPagos,
+            jcbTurno,
+            jcbDueño,
+            txtTotal,
+            jcbMetodoPago,
+            jcbEstadoPago,
+            txtFecha,
+            txtHora
+    );
+
+    controlPago.seleccionarDueñoDelTurno(
+            jcbTurno,
+            jcbDueño
+    );
+
+    }//GEN-LAST:event_btnagregar1ActionPerformed
+
+    private void jcbTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTurnoActionPerformed
+        // TODO add your handling code here:
+        
+    if (controlPago != null) {
+
+        controlPago.seleccionarDueñoDelTurno(jcbTurno,jcbDueño);
+              
+           }
+    }//GEN-LAST:event_jcbTurnoActionPerformed
+
+    private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
+        // TODO add your handling code here:
+        
+         controlPago.modificarPago(
+            jtPagos,
+            jcbTurno,
+            txtTotal,
+            jcbMetodoPago,
+            jcbEstadoPago,
+            txtFecha,
+            txtHora
+    );
+
+    controlPago.mostrarPagos(jtPagos);
+
+    controlPago.limpiarCampos(
+            jtPagos,
+            jcbTurno,
+            jcbDueño,
+            txtTotal,
+            jcbMetodoPago,
+            jcbEstadoPago,
+            txtFecha,
+            txtHora );
+
+    controlPago.seleccionarDueñoDelTurno( jcbTurno,jcbDueño);
+        
+    }//GEN-LAST:event_btnmodificarActionPerformed
+
+    private void jtPagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPagosMouseClicked
+        // TODO add your handling code here:
+        
+        controlPago.seleccionarPago(
+            jtPagos,
+            jcbTurno,
+            jcbDueño,
+            txtTotal,
+            jcbMetodoPago,
+            jcbEstadoPago,
+            txtFecha,
+            txtHora
+    );
+    }//GEN-LAST:event_jtPagosMouseClicked
+
+    private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalActionPerformed
+
+    private void jcbDueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDueñoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbDueñoActionPerformed
+
+    private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaActionPerformed
+
+    private void txtHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoraActionPerformed
+
+    private void btnmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuActionPerformed
+        // TODO add your handling code here:
+        Menu menuPrincipal = new Menu();
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null);
+        dispose();
+    }//GEN-LAST:event_btnmenuActionPerformed
+
+    private void txtTotalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotalKeyTyped
+        // TODO add your handling code here:
+        
+         char c = evt.getKeyChar();
+
+    if (!Character.isDigit(c)
+            && c != '.'
+            && c != ','
+            && c != '\b') {
+
+        evt.consume();
+    }
+
+    if ((c == '.' || c == ',')
+            && (txtTotal.getText().contains(".")
+            || txtTotal.getText().contains(","))) {
+
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtTotalKeyTyped
+
+    private void txtFechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaKeyTyped
+        // TODO add your handling code here:
+        
+        char c = evt.getKeyChar();
+
+    if (!Character.isDigit(c)
+            && c != '/'
+            && c != '-'
+            && c != '\b') {
+
+        evt.consume();
+    }
+
+    if (txtFecha.getText().length() >= 10
+            && c != '\b') {
+
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtFechaKeyTyped
+
+    private void txtHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHoraKeyTyped
+        // TODO add your handling code here:
+        
+         char c = evt.getKeyChar();
+
+    if (!Character.isDigit(c)
+            && c != ':'
+            && c != '\b') {
+
+        evt.consume();
+    }
+
+    if (txtHora.getText().length() >= 5
+            && c != '\b') {
+
+        evt.consume();
+    }
+    }//GEN-LAST:event_txtHoraKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnexit;
+    private javax.swing.JButton btnagregar1;
+    private javax.swing.JButton btneliminar;
     private javax.swing.JButton btnguardar;
+    private javax.swing.JButton btnmenu;
     private javax.swing.JButton btnmodificar;
-    private javax.swing.JComboBox<String> comboestpag;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JComboBox<String> jcbDueño;
+    private javax.swing.JComboBox<String> jcbEstadoPago;
+    private javax.swing.JComboBox<String> jcbMetodoPago;
+    private javax.swing.JComboBox<String> jcbTurno;
+    private javax.swing.JTable jtPagos;
     private javax.swing.JLabel lblespag;
     private javax.swing.JLabel lblfe;
+    private javax.swing.JLabel lblfe1;
     private javax.swing.JLabel lblidcli;
     private javax.swing.JLabel lblidtur;
     private javax.swing.JLabel lblmetpag;
     private javax.swing.JLabel lblregpag;
     private javax.swing.JLabel lbltot;
-    private javax.swing.JTable tableregpag;
-    private javax.swing.JTextField txtIdtur;
-    private javax.swing.JTextField txtfe;
-    private javax.swing.JTextField txtidcli;
-    private javax.swing.JTextField txttot;
+    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtHora;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

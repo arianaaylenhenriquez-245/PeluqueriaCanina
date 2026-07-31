@@ -141,5 +141,7 @@ public class Cliente_Controlador {
         txtNombre.setEnabled(false);
         txtTelefono.setEnabled(false);
     }
+    
 }
+
     

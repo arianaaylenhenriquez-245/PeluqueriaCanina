@@ -2,61 +2,84 @@ package Modelo;
 
 public class Modelo_Turno {
 
-    private int fecha;
-    private int hora;
-    private String estadoTurno;
-    private String observacionTurno;
-    private String servicioTurno;
+    private int idTurno;
+    private String fecha;
+    private String hora;
+    private String estado;
+    private String observaciones;
+    private int idMascota;
+    private int idServicio;
 
     public Modelo_Turno() {
     }
 
-    public Modelo_Turno(int fecha, int hora, String estadoTurno, String observacionTurno, String servicioTurno) {
+    public Modelo_Turno(int idTurno, String fecha, String hora,
+            String estado, String observaciones,
+            int idMascota, int idServicio) {
+
+        this.idTurno = idTurno;
         this.fecha = fecha;
         this.hora = hora;
-        this.estadoTurno = estadoTurno;
-        this.observacionTurno = observacionTurno;
-        this.servicioTurno = servicioTurno;
+        this.estado = estado;
+        this.observaciones = observaciones;
+        this.idMascota = idMascota;
+        this.idServicio = idServicio;
     }
 
-    public int getFecha() {
+    public int getIdTurno() {
+        return idTurno;
+    }
+
+    public void setIdTurno(int idTurno) {
+        this.idTurno = idTurno;
+    }
+
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(int fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public int getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(int hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
-    public String getEstadoTurno() {
-        return estadoTurno;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setEstadoTurno(String estadoTurno) {
-        this.estadoTurno = estadoTurno;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
-    public String getObservacionTurno() {
-        return observacionTurno;
+    public String getObservaciones() {
+        return observaciones;
     }
 
-    public void setObservacionTurno(String observacionTurno) {
-        this.observacionTurno = observacionTurno;
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
-    public String getServicioTurno() {
-        return servicioTurno;
+    public int getIdMascota() {
+        return idMascota;
     }
 
-    public void setServicioTurno(String servicioTurno) {
-        this.servicioTurno = servicioTurno;
+    public void setIdMascota(int idMascota) {
+        this.idMascota = idMascota;
+    }
+
+    public int getIdServicio() {
+        return idServicio;
+    }
+
+    public void setIdServicio(int idServicio) {
+        this.idServicio = idServicio;
     }
 
 }
